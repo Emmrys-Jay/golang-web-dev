@@ -56,7 +56,7 @@ func handle(conn net.Conn) {
 			fmt.Fprintf(conn, "%s\r\n", v)
 		case "SET":
 			if len(fs) != 3 {
-				fmt.Fprintln(conn, "EXPECTED VALUE\r\n")
+				fmt.Fprintln(conn, "EXPECTED VALUE")
 				continue
 			}
 			k := fs[1]
