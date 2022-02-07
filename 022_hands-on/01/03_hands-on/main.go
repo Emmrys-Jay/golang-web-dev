@@ -6,31 +6,31 @@ import (
 	"net/http"
 )
 
-var tpl template.Template
+var tpl *template.Template
 
 func index(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "tpl.gothml", "Welcome Page!")
+	err := tpl.ExecuteTemplate(w, "tpl.gohtml", "Welcome Page!")
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
 func dog(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "tpl.gothml", "I have a German Shepherd!")
+	err := tpl.ExecuteTemplate(w, "tpl.gohtml", "I have a German Shepherd!")
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
 func me(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "tpl.gothml", "The name's Jonathan Emmanuel!")
+	err := tpl.ExecuteTemplate(w, "tpl.gohtml", "The name's Jonathan Emmanuel!")
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
 func init() {
-	template.Must(template.ParseFiles("tpl.gohtml"))
+	tpl = template.Must(template.ParseFiles("tpl.gohtml"))
 }
 
 func main() {
