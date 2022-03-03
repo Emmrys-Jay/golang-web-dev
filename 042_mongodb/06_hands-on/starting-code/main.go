@@ -1,23 +1,21 @@
 package main
 
 import (
-	"github.com/GoesToEleven/golang-web-dev/040_mongodb/06_hands-on/starting-code/controllers"
-	"github.com/julienschmidt/httprouter"
-	"gopkg.in/mgo.v2"
+	"ToddMcleods/golang-web-dev/042_mongodb/06_hands-on/starting-code/controllers"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
 	r := httprouter.New()
-	// Get a UserController instance
-	uc := controllers.NewUserController(getSession())
-	r.GET("/user/:id", uc.GetUser)
-	r.POST("/user", uc.CreateUser)
-	r.DELETE("/user/:id", uc.DeleteUser)
+	r.GET("/user/:id", controllers.GetUser)
+	r.POST("/user", controllers.CreateUser)
+	r.DELETE("/user/:id", controllers.DeleteUser)
 	http.ListenAndServe("localhost:8080", r)
 }
 
-func getSession() *mgo.Session {
+/*func getSession() *mgo.Session {
 	// Connect to our local mongo
 	s, err := mgo.Dial("mongodb://localhost")
 
@@ -26,4 +24,4 @@ func getSession() *mgo.Session {
 		panic(err)
 	}
 	return s
-}
+}*/
