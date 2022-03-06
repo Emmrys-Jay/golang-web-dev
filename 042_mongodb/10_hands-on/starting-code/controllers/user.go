@@ -13,15 +13,10 @@ import (
 )
 
 var tpl *template.Template
-var DbUsers = map[string]models.User{}       // user ID, user
-var DbSessions = map[string]models.Session{} // session ID, session
-var DbSessionsCleaned time.Time
-
-const SessionLength int = 30
 
 func init() {
-	tpl = template.Must(template.ParseGlob("../templates/*"))
-	DbSessionsCleaned = time.Now()
+	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+	sessions.DbSessionsCleaned = time.Now()
 }
 
 type mCtrl struct{}
@@ -65,27 +60,27 @@ func (m *mCtrl) Signup(w http.ResponseWriter, req *http.Request) {
 		l := req.FormValue("lastname")
 		r := req.FormValue("role")
 		// username taken?
-		if _, ok := DbUsers[un]; ok {
+		if _, ok := sessions.DbUsers[un]; ok {
 			http.Error(w, "Username already taken", http.StatusForbidden)
 			return
 		}
 		// create session
-		sID, _ := uuid.NewV4()
+		sID := uuid.NewV4()
 		c := &http.Cookie{
 			Name:  "session",
 			Value: sID.String(),
 		}
-		c.MaxAge = SessionLength
+		c.MaxAge = sessions.SessionLength
 		http.SetCookie(w, c)
-		DbSessions[c.Value] = models.Session{un, time.Now()}
-		// store user in DbUsers
+		sessions.DbSessions[c.Value] = models.Session{un, time.Now()}
+		// store user in sessions.DbUsers
 		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)
 		if err != nil {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 		u = models.User{un, bs, f, l, r}
-		DbUsers[un] = u
+		sessions.DbUsers[un] = u
 		// redirect
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
@@ -105,7 +100,7 @@ func (m *mCtrl) Login(w http.ResponseWriter, req *http.Request) {
 		un := req.FormValue("username")
 		p := req.FormValue("password")
 		// is there a username?
-		u, ok := DbUsers[un]
+		u, ok := sessions.DbUsers[un]
 		if !ok {
 			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
 			return
@@ -117,14 +112,14 @@ func (m *mCtrl) Login(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		// create session
-		sID, _ := uuid.NewV4()
+		sID := uuid.NewV4()
 		c := &http.Cookie{
 			Name:  "session",
 			Value: sID.String(),
 		}
-		c.MaxAge = SessionLength
+		c.MaxAge = sessions.SessionLength
 		http.SetCookie(w, c)
-		DbSessions[c.Value] = models.Session{un, time.Now()}
+		sessions.DbSessions[c.Value] = models.Session{un, time.Now()}
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
 	}
@@ -139,7 +134,7 @@ func (m *mCtrl) Logout(w http.ResponseWriter, req *http.Request) {
 	}
 	c, _ := req.Cookie("session")
 	// delete the session
-	delete(DbSessions, c.Value)
+	delete(sessions.DbSessions, c.Value)
 	// remove the cookie
 	c = &http.Cookie{
 		Name:   "session",
@@ -148,8 +143,8 @@ func (m *mCtrl) Logout(w http.ResponseWriter, req *http.Request) {
 	}
 	http.SetCookie(w, c)
 
-	// clean up DbSessions
-	if time.Now().Sub(DbSessionsCleaned) > (time.Second * 30) {
+	// clean up sessions.DbSessions
+	if time.Now().Sub(sessions.DbSessionsCleaned) > (time.Second * 30) {
 		go sessions.CleanSessions()
 	}
 
