@@ -8,6 +8,7 @@ db
 show dbs
 db.customers.insert([{"role":"double-zero","name": "Bond","age": 32},{"role":"citizen","name": "Moneypenny","age":32},{"role":"citizen","name": "Q","age":67},{"role":"citizen","name": "M","age":57},{"role":"citizen","name": "Dr. No","age":52}])
 ```
+//only the files that need to be queried must be inserted inside the paranthesis, other functions must be attached using the dot notation.
 
 ### find
 ```
@@ -30,9 +31,9 @@ You can do it either way: ```"name" or name```. JSON specification is to enclose
 
 ### and
 ```
-db.customers.find({$and: [{name:"Bond"}, {age:32}]})
-db.customers.find({$and: [{name:"Bond"}, {age:{$lt:20}}]})
-db.customers.find({$and: [{name:"Bond"}, {age:{$gt:20}}]})
+db.customers.find({$and: [{name:"Bond"}, {age:32}]}) //and operator makes sure both fields are present.
+db.customers.find({$and: [{name:"Bond"}, {age:{$lt:20}}]}) //lt less than 
+db.customers.find({$and: [{name:"Bond"}, {age:{$gt:20}}]}) //gt greater than
 ```
 
 ### or

@@ -14,7 +14,7 @@ db.customers.remove({role:"citizen"},1)
 
 ### remove
 ```
-db.customers.remove({role:"citizen"})
+db.customers.remove({role:"citizen"}) //removes all citizens
 ```
 
 ### put documents back

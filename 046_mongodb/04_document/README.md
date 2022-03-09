@@ -66,17 +66,21 @@ db.crayons.insert([
 [source of crayon json](https://gist.githubusercontent.com/jjdelc/1868136/raw/c9160b1e60bd8c10c03dbd1a61b704a8e977c46b/crayola.json)
 
 ```
-show collections
+show collections //show collections available
 ```
 
 ```
-db.crayons.find()
+db.crayons.find() //display documents
 ```
 
 ```
-db.crayons.drop()
+db.crayons.find().pretty() //display documents pretty
 ```
 
 ```
-db.dropDatabase()
+db.crayons.drop() //drop a collection from a database
+```
+
+```
+db.dropDatabase() //drop the database
 ```

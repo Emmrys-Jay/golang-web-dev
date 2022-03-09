@@ -44,7 +44,7 @@ db.crayons.insert([
 
 ### limit
 ```
-db.<collection name>.find(<selection criteria>).limit(n)
+db.<collection name>.find(<selection criteria>).limit(n) //n can be any number
 ```
 
 ```

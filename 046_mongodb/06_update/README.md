@@ -37,16 +37,16 @@ db.customers.update({name:"Moneypenny"},{$set:{role:"citizen", name: "Miss Money
 ```
 
 ```
-db.customers.update({age:{$gt:35}},{$set:{role:"double-zero"}})
+db.customers.update({age:{$gt:35}},{$set:{role:"double-zero"}}) //changes for only the first row found
 ```
 
 ```
-db.customers.update({age:{$gt:35}},{$set:{role:"double-zero"}}, {multi:true})
+db.customers.update({age:{$gt:35}},{$set:{role:"double-zero"}}, {multi:true}) //the {multi:true} option makes it to change all records that satisfy the rule. We can see different options in the link below.
 ```
 [see options](https://docs.mongodb.com/manual/reference/method/db.collection.update/)
 
 ```
-db.customers.update({},{$set:{role:"citizen"}}, {multi:true})
+db.customers.update({},{$set:{role:"citizen"}}, {multi:true}) //set all records
 ```
 [see query documentation](https://docs.mongodb.com/manual/tutorial/query-documents/)
 
@@ -54,13 +54,13 @@ db.customers.update({},{$set:{role:"citizen"}}, {multi:true})
 
 ### save
 ```
-db.customers.save({"role":"villain","name":"Jaws","age":43})
+db.customers.save({"role":"villain","name":"Jaws","age":43}) //create a new record with a random id
 ```
 
 ```
-db.customers.save({"_id":ObjectId("5891221756867ebff44cc889"),"role":"villain","name":"Goldfinger","age":77})
+db.customers.save({"_id":ObjectId("5891221756867ebff44cc889"),"role":"villain","name":"Goldfinger","age":77}) //adds the new id if not already available
 ```
 
 ```
-db.customers.save({"_id":ObjectId("5893888012acb8ada532a8e4"),"role":"villain","name":"PussyGalore","age":31})
+db.customers.save({"_id":ObjectId("5893888012acb8ada532a8e4"),"role":"villain","name":"PussyGalore","age":31}) //since id already exists, it overwrites/updates
 ```

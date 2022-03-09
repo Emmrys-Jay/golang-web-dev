@@ -54,7 +54,7 @@ db.inventory.insert([
 #### examples - distinct()
 
 ```
-db.inventory.distinct( "dept" )
+db.inventory.distinct( "dept" ) //returns the distinct field values of the field name inserted
 ```
 
 ```

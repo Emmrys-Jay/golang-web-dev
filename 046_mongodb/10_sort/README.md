@@ -9,9 +9,9 @@ db.<collection name>.find().sort(<field to sort on>:<1 for ascend, -1 descend>)
 ```
 db.oscars.find().limit(10)
 db.oscars.find({},{_id:0,year:1,title:1}).limit(10)
-db.oscars.find({},{_id:0,year:1,title:1}).limit(10).sort({title:1})
+db.oscars.find({},{_id:0,year:1,title:1}).limit(10).sort({title:1}) //sorting title in ascending order
 db.oscars.find({},{_id:0,year:1,title:1}).sort({title:1}).limit(10)
-db.oscars.find({},{_id:0,year:1,title:1}).limit(10).sort({title:-1})
+db.oscars.find({},{_id:0,year:1,title:1}).limit(10).sort({title:-1}) //sorting title in descending order.
 db.oscars.find({releaseYear:{$gt:1970}},{_id:0,year:1,title:1}).limit(10).sort({title:1})
 db.oscars.find({releaseYear:{$gt:1980}},{_id:0,year:1,title:1})
 ```

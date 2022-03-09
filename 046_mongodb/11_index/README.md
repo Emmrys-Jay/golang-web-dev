@@ -1,5 +1,7 @@
 # create index
 
+//a data you query regularly, an index helps you acces it easier
+
 ```
 db.<collection name>.createIndex({<field to index>:<1 for ascend, -1 descend>})
 ```
